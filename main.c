@@ -58,6 +58,16 @@ LM75A device1;
 
 uint8_t data[2];
 float temperature;
+
+float LM75AGetTemperature(void)
+{
+	  HAL_I2C_Mem_Read(&hi2c1,(uint16_t)LM75A_I2C_ADDRESS, (uint16_t)LM75A_TEMPERATURE_REGISTER, 1, data, sizeof(data), 100);
+
+	  device1.data[1] = data[0];
+	  device1.data[0] = data[1];
+
+	  return ((float)(device1.word >> 5) * LM75A_11_BIT_RESOLUTION_VALUE);
+}
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -113,13 +123,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HAL_I2C_Mem_Read(&hi2c1,(uint16_t)LM75A_I2C_ADDRESS, (uint16_t)LM75A_TEMPERATURE_REGISTER, 1, data, sizeof(data), 100);
-
-	  device1.data[1] = data[0];
-	  device1.data[0] = data[1];
-
-	  temperature = (float)(device1.word >> 5) * LM75A_11_BIT_RESOLUTION_VALUE;
-	  HAL_Delay(250);
+	  temperature = LM75AGetTemperature();
+	  HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }
