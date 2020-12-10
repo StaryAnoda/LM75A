@@ -98,8 +98,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
-  LM75A Result;
   uint8_t data[2] = {0};
+  int16_t a = 0;
   float temp;
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -108,12 +108,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HAL_I2C_Mem_Read(&hi2c1,(uint16_t)LM75A_I2C_ADDRESS, (uint16_t)LM75A_TEMPERATURE_REGISTER, 1, data, sizeof(data), 100);
+	HAL_I2C_Mem_Read(&hi2c1,(uint16_t)LM75A_I2C_ADDRESS, (uint16_t)LM75A_TEMPERATURE_REGISTER, 1, data, sizeof(data), 100);
 
-	  device1.data[1] = data[0];
-	  device1.data[0] = data[1];
+	device1.data[1] = data[0];
+	device1.data[0] = data[1];
 
-	  temp = (float)(device1.word >> 5) * 0.125f;
+	temp = (float)(device1.word >> 5) * 0.125f;
   }
   /* USER CODE END 3 */
 }
