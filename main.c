@@ -38,6 +38,7 @@
 /* USER CODE BEGIN PM */
 #define LM75A_I2C_ADDRESS (0x90)
 #define LM75A_TEMPERATURE_REGISTER (0x00)
+#define LM75A_11_BIT_RESOLUTION_VALUE (0.125f)
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -51,6 +52,9 @@ typedef union
 }LM75A;
 
 LM75A device1;
+
+uint8_t data[2];
+float temperature;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -98,9 +102,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
-  uint8_t data[2] = {0};
-  int16_t a = 0;
-  float temp;
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -113,7 +115,8 @@ int main(void)
 	device1.data[1] = data[0];
 	device1.data[0] = data[1];
 
-	temp = (float)(device1.word >> 5) * 0.125f;
+	temperature = (float)(device1.word >> 5) * LM75A_11_BIT_RESOLUTION_VALUE;
+	HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
