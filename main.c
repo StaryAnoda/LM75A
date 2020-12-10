@@ -50,8 +50,8 @@ I2C_HandleTypeDef hi2c1;
 /* USER CODE BEGIN PV */
 typedef union
 {
- uint8_t data[2];
- int16_t word;
+	uint8_t data[2];
+	int16_t word;
 }LM75A;
 
 LM75A device1;
