@@ -56,17 +56,19 @@ typedef union
 
 LM75A device1;
 
-uint8_t data[2];
+
 float temperature;
 
 float LM75AGetTemperature(void)
 {
-	  HAL_I2C_Mem_Read(&hi2c1,(uint16_t)LM75A_I2C_ADDRESS, (uint16_t)LM75A_TEMPERATURE_REGISTER, 1, data, sizeof(data), 100);
+	uint8_t data[2];
 
-	  device1.data[1] = data[0];
-	  device1.data[0] = data[1];
+	HAL_I2C_Mem_Read(&hi2c1,(uint16_t)LM75A_I2C_ADDRESS, (uint16_t)LM75A_TEMPERATURE_REGISTER, 1, data, sizeof(data), 100);
 
-	  return ((float)(device1.word >> 5) * LM75A_11_BIT_RESOLUTION_VALUE);
+	device1.data[1] = data[0];
+	device1.data[0] = data[1];
+
+	return ((float)(device1.word >> 5) * LM75A_11_BIT_RESOLUTION_VALUE);
 }
 /* USER CODE END PV */
 
