@@ -36,8 +36,8 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define LM75_I2C_ADDRESS (0x48 << 1)
-#define LM75_TEMPERATURE_REGISTER (0x00)
+#define LM75A_I2C_ADDRESS (0x90)
+#define LM75A_TEMPERATURE_REGISTER (0x00)
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -46,9 +46,11 @@ I2C_HandleTypeDef hi2c1;
 /* USER CODE BEGIN PV */
 typedef union
 {
- uint8_t Bytes[2];
- int16_t Word;
-}Temperature_Union;
+ uint8_t data[2];
+ int16_t word;
+}LM75A;
+
+LM75A device1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -96,7 +98,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
-  Temperature_Union Result;
+  LM75A Result;
   uint8_t data[2] = {0};
   float temp;
   /* Infinite loop */
@@ -106,12 +108,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HAL_I2C_Mem_Read(&hi2c1,(uint16_t)LM75_I2C_ADDRESS, (uint16_t)LM75_TEMPERATURE_REGISTER, 1, data, sizeof(data), 100);
+	  HAL_I2C_Mem_Read(&hi2c1,(uint16_t)LM75A_I2C_ADDRESS, (uint16_t)LM75A_TEMPERATURE_REGISTER, 1, data, sizeof(data), 100);
 
-	  Result.Bytes[1] = data[0];
-	  Result.Bytes[0] = data[1];
+	  device1.data[1] = data[0];
+	  device1.data[0] = data[1];
 
-	  temp = (float)(Result.Word >> 5) * 0.125f;
+	  temp = (float)(device1.word >> 5) * 0.125f;
   }
   /* USER CODE END 3 */
 }
