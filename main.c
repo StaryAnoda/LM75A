@@ -116,7 +116,7 @@ int main(void)
 	device1.data[0] = data[1];
 
 	temperature = (float)(device1.word >> 5) * LM75A_11_BIT_RESOLUTION_VALUE;
-	HAL_Delay(1000);
+	HAL_Delay(250);
   }
   /* USER CODE END 3 */
 }
